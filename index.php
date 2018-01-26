@@ -1,10 +1,8 @@
 <?php
-$servername = "mysql4.000webhost.com";
-$username = "a4045753_pingu";
-$password = "pingu123";
-$db = "a4045753_pingu";
+// connect to database
+include('define_const.php');
 
-$conn = new mysqli($servername, $username, $password, $db);
+$conn = new mysqli(DB_HOST, DB_USER, DB_PW, DB_NAME);
 if (mysqli_connect_error()) {
 	die("Database connection failed: " . mysqli_connect_error());
 }
@@ -120,6 +118,7 @@ mysqli_set_charset($conn, "utf8");
 	<script>
 	$( function() {
 		
+		// retrive list of unique entered values from db for auto-complete purpose
 		var award_list = <?php $sql = "SELECT * FROM sspa_award_list ORDER BY sspa_award ASC";
 				$response = array();
 				$result = $conn->query($sql);
@@ -146,6 +145,7 @@ mysqli_set_charset($conn, "utf8");
 				while ($row = $result->fetch_assoc()) $response[]=$row['sspa_remarks'];
 				echo json_encode($response);?>;	
 		
+		// set up auto complete
 		$( ".award" ).autocomplete({
 			source: award_list,
 		});
@@ -166,6 +166,7 @@ mysqli_set_charset($conn, "utf8");
 			source: remarks_list,
 		});
 		
+		// when id changes, retrieve student name and display it
 		$("#id").on("change", function(){
 			if ($(this).val()!=""){
 				$.ajax({
@@ -178,6 +179,7 @@ mysqli_set_charset($conn, "utf8");
 			}
 		});
 		
+		// concat fields that have P5 and P6 check boxes
 		function complex_concat(n,name,primary){
 			temp = "";
 			for (var i=1; i<=n; i++){
@@ -191,6 +193,7 @@ mysqli_set_charset($conn, "utf8");
 			return temp;
 		}
 		
+		// concat other fields
 		function simple_concat(n,name){
 			temp = "";
 			for (var i=1; i<=n; i++){
@@ -204,11 +207,12 @@ mysqli_set_charset($conn, "utf8");
 			return temp;
 		}
 		
+		// return an array of input values that have never been inputted, which would be inserted into the auto complete list for next use
 		function get_new_array(str, arr){
 			temp = {"table":str};
 			counter = 0;
 			$("." + str).each(function(index){
-			if ($(this).val()!="" && $.inArray($(this).val(),arr)==-1){
+				if ($(this).val()!="" && $.inArray($(this).val(),arr)==-1){
 					arr.push($(this).val());
 					temp[counter] = $(this).val();
 					counter += 1;
@@ -225,6 +229,7 @@ mysqli_set_charset($conn, "utf8");
 			
 			if (confirm('Are you sure you want to submit?')) {
 				
+				// prepare values for inserting into the db. These fields are hidden on the website.
 				$("#hidden_id").val($("#id").val());
 				
 				$("#duties_P5_all").val(complex_concat(10,"duty",5));
@@ -234,11 +239,14 @@ mysqli_set_charset($conn, "utf8");
 				$("#eca_all").val(simple_concat(20,"eca"));
 				$("#remarks_all").val(simple_concat(20,"remarks"));
 				
+				// insert new column to db
 				var a1 = $.ajax({
 					type: "POST",
 					url: "submit_form.php",
 					data: $("#form").serialize(),
 				});
+				
+				// add new input items to the auto complete list
 				var a2 = $.ajax({
 					type: "POST",
 					url: "add_new_item.php",
@@ -265,6 +273,7 @@ mysqli_set_charset($conn, "utf8");
 					data: get_new_array("remarks",remarks_list),
 				});
 				
+				// when all 6 requests are done, reload the page, otherwise return error
 				$.when(a1,a2,a3,a4,a5,a6).done(function(x1,x2,x3,x4,x5,x6){
 					var error = x1[0] + x2[0] + x3[0] + x4[0] + x5[0] + x6[0];
 					if (error == ""){

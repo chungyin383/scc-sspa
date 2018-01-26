@@ -1,10 +1,7 @@
 <?php
-$servername = "mysql4.000webhost.com";
-$username = "a4045753_pingu";
-$password = "pingu123";
-$db = "a4045753_pingu";
+include('define_const.php');
 
-$conn = new mysqli($servername, $username, $password, $db);
+$conn = new mysqli(DB_HOST, DB_USER, DB_PW, DB_NAME);
 if (mysqli_connect_error()) {
 	die("Database connection failed: " . mysqli_connect_error());
 }

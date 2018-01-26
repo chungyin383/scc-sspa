@@ -1,13 +1,8 @@
 <?php
-
+include('define_const.php');
 header('Content-Type: charset=UTF-8');
 
-$servername = "mysql4.000webhost.com";
-$username = "a4045753_pingu";
-$password = "pingu123";
-$db = "a4045753_pingu";
-
-$conn = new mysqli($servername, $username, $password, $db);
+$conn = new mysqli(DB_HOST, DB_USER, DB_PW, DB_NAME);
 
 mysqli_set_charset($conn, "utf8");
 
@@ -27,7 +22,7 @@ $fp = fopen('php://output', 'w');
 if ($fp && $result) {
     header('Content-Type: text/csv');
 	date_default_timezone_set("Asia/Hong_Kong");
-    header('Content-Disposition: attachment; filename="2017_SSPA_results' . date("Y.m.d h:i:sa") . '.csv"');
+    header('Content-Disposition: attachment; filename="2018_SSPA_results' . date("Y.m.d h:i:sa") . '.csv"');
     header('Pragma: no-cache');
     header('Expires: 0');
     fputcsv($fp, $headers);
