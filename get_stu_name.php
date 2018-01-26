@@ -8,7 +8,7 @@ if (mysqli_connect_error()) {
 	die("Database connection failed: " . mysqli_connect_error());
 }
 
-$sql = "SELECT chi_name FROM sspa_basic WHERE id = " . $_POST['id'];
+$sql = "SELECT chi_name FROM sspa_name WHERE id = " . $_POST['id'];
 $result = $conn->query($sql)->fetch_assoc();
 echo $result['chi_name'];
 $conn->close();

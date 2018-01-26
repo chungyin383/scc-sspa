@@ -10,8 +10,8 @@ if (mysqli_connect_error()) {
 	die("Database connection failed: " . mysqli_connect_error());
 }
 
-$result = $conn->query('SELECT * FROM sspa_basic');
-if (!$result) die('Couldn\'t fetch records');
+$result = $conn->query('SELECT * FROM sspa_main');
+if (!$result) die('Cannot fetch records');
 $num_fields = mysqli_num_fields($result);
 $headers = array();
 while ($fieldinfo = mysqli_fetch_field($result)) {

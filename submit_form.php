@@ -23,7 +23,7 @@ $temp2 = array_merge($temp1,$_POST);
 $all_params = & $temp2;
 
 /* Generate sql statement */
-$sql = "UPDATE sspa_basic SET tel=?,chi_5=?,eng_5=?,maths_5=?,gs_5=?,conduct_5=?,rank_class_5=?,rank_form_5=?,chi_6=?,eng_6=?,maths_6=?,gs_6=?,conduct_6=?,rank_class_6=?,rank_form_6=?,duties_5=?,duties_6=?,prizes_5=?,prizes_6=?,eca=?,remarks=? WHERE id=?";
+$sql = "INSERT INTO sspa_main VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 /* Prepare statement */
 $stmt = $conn->prepare($sql);

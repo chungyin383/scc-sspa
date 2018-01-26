@@ -183,6 +183,7 @@ mysqli_set_charset($conn, "utf8");
 		function complex_concat(n,name,primary){
 			temp = "";
 			for (var i=1; i<=n; i++){
+				// if a field is filled, then classify it as P5 or P6 according to the checked boxes
 				if ($("#" + name + "_" + i).val() != "" && $("#" + name + "_P" + primary + "_" + i).prop('checked')){
 					temp += (temp=="" ? "":", ") + $("#" + name + "_" + i).val();
 					if ($("#" + name + "_award_" + i).length != 0 && $("#" + name + "_award_" + i).val()!=""){
@@ -299,7 +300,7 @@ mysqli_set_charset($conn, "utf8");
 			<div class="title">General information</div>
 			<div class="ui-widget">
 				<label for="id">Application no.</label>
-				<input class="thin" id="id">
+				<input class="thin" name="id" id="id">
 			</div>
 			<div id="stu_name">Student name: </div>
 			<div class="ui-widget">
@@ -712,7 +713,6 @@ mysqli_set_charset($conn, "utf8");
 			<input id="remarks_all" name="remarks" style="display:none;">
 		</div>
 		
-		<input id="hidden_id" name="id" style="display:none;"> <!-- put the id at the bottom so as to facilitate php sql binding -->
 		<input type="submit" value="Submit">
 		
 	</form>
