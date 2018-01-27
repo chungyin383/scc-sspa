@@ -10,12 +10,11 @@ mysqli_set_charset($conn, "utf8");
 /* Bind parameters. Types: s = string, i = integer, d = double,  b = blob */
 $all_params = array();
  
-$param_type = '';
+$param_type = 'i';
 $n = count($_POST)-1;
 for($i = 0; $i < $n; $i++) {
 	$param_type .= 's';
 }
-$param_type .= 'i';
 
 /* with call_user_func_array, array params must be passed by reference */
 $temp1 = array($param_type);
